@@ -1,0 +1,11 @@
+#
+# This file should be in .../cookbooks/database/templates/default/database.yml.erb
+#
+ 
+<%= @environment %>:
+  adapter:   <%= @adapter %>
+  database:  <%= @database %>
+  username:  <%= @username %>
+  password:  <%= @password %>
+  host:      <%= @host %>
+  reconnect: true
