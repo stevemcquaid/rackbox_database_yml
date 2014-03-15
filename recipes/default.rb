@@ -35,23 +35,19 @@
 # Should add this check in the future
 # if ['solo', 'app_master', 'app', 'util'].include?(node[:instance_role])
 
-# for each application
-Array(node["rackbox"]["apps"]["passenger"]).each_with_index do |app, index|
-  # create new database.yml
-  template "#{::File.join(node["appbox"]["apps_dir"], app["appname"], 'shared/config/database.yml')}" do
-    source 'database.yml.erb'
-    owner node["appbox"]["apps_user"]
-    group node["appbox"]["apps_user"]
-    mode 0644
-    variables({
-      :environment => "production",
-      :adapter => 'mysql2',
-      :database => node["databox"]["databases"]["mysql"].first["database_name"],
-      :username => node["databox"]["databases"]["mysql"].first["username"],
-      :password => node["databox"]["databases"]["mysql"].first["password"],
-      :host => 'localhost'
-    })
-  end
+template "#{::File.join(node["appbox"]["apps_dir"], app["appname"], 'shared/config/database.yml')}" do
+  source 'database.yml.erb'
+  owner node["appbox"]["apps_user"]
+  group node["appbox"]["apps_user"]
+  mode 0644
+  variables({
+    :environment => "production",
+    :adapter => 'postgresql',
+    :database => node["databox"]["databases"]["mysql"].first["database_name"],
+    :username => node["databox"]["databases"]["mysql"].first["username"],
+    :password => node["databox"]["databases"]["mysql"].first["password"],
+    :host => 'localhost'
+  })
 end
 
 
